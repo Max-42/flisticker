@@ -1,5 +1,6 @@
 
 
+import os
 from flask import Flask, flash, json, make_response, redirect, render_template, request, send_file, url_for
 
 from flask import Flask, render_template_string
@@ -7,8 +8,9 @@ import threading
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.chrome.service import Service as ChromeService
-from webdriver_manager.chrome import ChromeDriverManager
+from selenium import webdriver
+from selenium.webdriver.firefox.service import Service
+from selenium.webdriver.firefox.options import Options
 from PIL import Image, ImageDraw
 
 from lib.auth import is_admin, token_required
@@ -62,6 +64,7 @@ def background_task():
     #options.add_argument("start-maximized")
     #options.add_argument("disable-infobars")
     options.add_argument("--disable-extensions")
+    options.headless = True  # Set the browser to headless mode
     profile = webdriver.FirefoxProfile()
 
     # Set the gfx.font_rendering.cleartype_params.rendering_mode preference to 1
@@ -72,7 +75,7 @@ def background_task():
     driver = webdriver.Firefox(options=options)
     
     try:
-        driver.get("http://192.168.178.52:5050/embed")
+        driver.get("http://127.0.0.1:40406/embed")
         
 
         while True:
@@ -153,13 +156,31 @@ def round_corners():
 
 @app.route('/screenshot')
 def screenshot():
-    return send_file("stage-04.png", mimetype='image/png')
+    try:
+        return send_file("stage-04.png", mimetype='image/png')
+    except FileNotFoundError:
+        try:
+            return send_file("wait.png", mimetype='image/png')
+        except FileNotFoundError:
+            return "No screenshot available", 404
 
 @app.route('/bild')
 def bild():
     return render_template('bild.html')
-    
+
+def cleanup():
+    try:
+        os.remove("full_screenshot.png")
+        os.remove("stage-01.png")
+        os.remove("stage-02.png")
+        os.remove("stage-03.png")
+        os.remove("stage-04.png")
+    except FileNotFoundError:
+        pass
+
 if __name__ == '__main__':
+
+    cleanup()
 
     bg_task = threading.Thread(target=background_task)
     #bg_task.daemon = True
