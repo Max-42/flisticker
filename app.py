@@ -172,7 +172,7 @@ if __name__ == '__main__':
     # except KeyboardInterrupt:
     #     pass
 
-    app.run(host="0.0.0.0", port=5180, debug=False)
+    app.run(host="0.0.0.0", port=40406, debug=False)
 
     bg_task.join() #will never be reached lol
     
