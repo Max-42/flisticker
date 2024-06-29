@@ -3,3 +3,5 @@
 /stage-02.png
 /stage-03.png
 /stage-04.png
+*.pyc
+__pycache__/
