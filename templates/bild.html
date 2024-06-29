@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            font-family: Arial, sans-serif;
+        }
+        img {
+            /*keep original scale*/
+            width: 500px;
+            height: auto;
+
+        }
+    </style>
+
+    <script>
+        //refresh image every second without flickering
+        setInterval(() => {
+            document.querySelector('img').src = '/screenshot?' + new Date().getTime();
+        }, 1000);
+    </script>
+
+</head>
+<body>
+    <img src="/screenshot" alt="">
+</body>
+</html>
