@@ -58,13 +58,13 @@ def embed():
 
 
 def background_task():
-    options = webdriver.FirefoxOptions()
+    options = Options()
     #options.add_argument('--headless')
     
     #options.add_argument("start-maximized")
     #options.add_argument("disable-infobars")
     options.add_argument("--disable-extensions")
-    options.headless = True  # Set the browser to headless mode
+    options.headless = True
     profile = webdriver.FirefoxProfile()
 
     # Set the gfx.font_rendering.cleartype_params.rendering_mode preference to 1
@@ -72,7 +72,10 @@ def background_task():
     # Disable anti-aliasing
     
     # Specify the driver version manually if needed
-    driver = webdriver.Firefox(options=options)
+
+    service = Service("/usr/local/bin/geckodriver")
+
+    driver = webdriver.Firefox(options=options, service=service)
     
     try:
         driver.get("http://127.0.0.1:40406/embed")
