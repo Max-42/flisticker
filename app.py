@@ -45,37 +45,25 @@ def embed():
 
 
 
-#async deamon that fetches screenshots from /embed
 
-
-
-# def run_scheduler():
-#     schedule.every(2).seconds.do(job)
-#     while True:
-#         schedule.run_pending()
-#         time.sleep(1)
-#         print("Scheduler running")
 
 
 def background_task():
     options = Options()
-    #options.add_argument('--headless')
+    options.add_argument('--headless')
     
     #options.add_argument("start-maximized")
     #options.add_argument("disable-infobars")
     options.add_argument("--disable-extensions")
     options.headless = True
-    profile = webdriver.FirefoxProfile()
 
-    # Set the gfx.font_rendering.cleartype_params.rendering_mode preference to 1
-    profile.set_preference('gfx.font_rendering.cleartype_params.rendering_mode', 1)
-    # Disable anti-aliasing
-    
-    # Specify the driver version manually if needed
 
-    service = Service("/usr/local/bin/geckodriver")
+    options = webdriver.ChromeOptions()
+    options.headless = True
 
-    driver = webdriver.Firefox(options=options, service=service)
+
+
+    driver = webdriver.Chrome(options=options)
     
     try:
         driver.get("http://127.0.0.1:40406/embed")
